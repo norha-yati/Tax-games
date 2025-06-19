@@ -524,17 +524,19 @@
                 } else if (chargeableIncome <= 35000) {
                     tax = 150 + (chargeableIncome - 20000) * 0.03;
                 } else if (chargeableIncome <= 50000) {
-                    tax = 150 + 450 + (chargeableIncome - 35000) * 0.08;
+                    tax = 150 + 450 + (chargeableIncome - 35000) * 0.06;
                 } else if (chargeableIncome <= 70000) {
-                    tax = 150 + 450 + 1200 + (chargeableIncome - 50000) * 0.13;
+                    tax = 150 + 450 + 900 + (chargeableIncome - 50000) * 0.11;
                 } else if (chargeableIncome <= 100000) {
-                    tax = 150 + 450 + 1200 + 2600 + (chargeableIncome - 70000) * 0.21;
-                } else if (chargeableIncome <= 250000) {
-                    tax = 150 + 450 + 1200 + 2600 + 6300 + (chargeableIncome - 100000) * 0.24;
+                    tax = 150 + 450 + 900 + 2200 + (chargeableIncome - 70000) * 0.19;
                 } else if (chargeableIncome <= 400000) {
-                    tax = 150 + 450 + 1200 + 2600 + 6300 + 36000 + (chargeableIncome - 250000) * 0.245;
+                    tax = 150 + 450 + 900 + 2200 + 5700 + (chargeableIncome - 100000) * 0.25;
+                } else if (chargeableIncome <= 600000) {
+                    tax = 150 + 450 + 900 + 2200 + 5700 + 75000 + (chargeableIncome - 400000) * 0.26;
+                } else if (chargeableIncome <= 2000000) {
+                    tax = 150 + 450 + 900 + 2200 + 5700 + 75000 + 52000 + (chargeableIncome - 600000) * 0.28;
                 } else {
-                    tax = 150 + 450 + 1200 + 2600 + 6300 + 36000 + 36750 + (chargeableIncome - 400000) * 0.25;
+                    tax = 150 + 450 + 900 + 2200 + 5700 + 75000 + 52000 + 392000 (chargeableIncome - 2000000) * 0.30;
                 }
                 
                 return Math.round(tax);
