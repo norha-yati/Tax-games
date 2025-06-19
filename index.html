@@ -233,9 +233,9 @@
                         <h4 class="text-xl font-bold mb-2">Annual Income</h4>
                         <p id="income-value" class="text-3xl font-bold">RM 0</p>
                     </div>
-                    <div class="card deduction-card p-5 text-white">
-                        <h4 class="text-xl font-bold mb-2">Deductions</h4>
-                        <p id="deduction-value" class="text-3xl font-bold">RM 0</p>
+                    <div class="card relief-card p-5 text-white">
+                        <h4 class="text-xl font-bold mb-2">Tax Relief</h4>
+                        <p id="relief-value" class="text-3xl font-bold">RM 0</p>
                     </div>
                     <div class="card relief-card p-5 text-white">
                         <h4 class="text-xl font-bold mb-2">Tax Relief</h4>
@@ -252,7 +252,7 @@
                     <h3 class="text-2xl font-bold mb-4 text-gray-800">Calculate Tax Payable</h3>
                     
                     <div class="mb-6">
-                        <label class="block text-gray-700 font-medium mb-2">Chargeable Income (Annual Income - Deductions - Relief)</label>
+                        <label class="block text-gray-700 font-medium mb-2">Chargeable Income (Annual Income - Reliefs)</label>
                         <input id="chargeable-income" type="number" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="Enter chargeable income" readonly>
                     </div>
                     
@@ -273,7 +273,7 @@
                 
                 <!-- Tax Rate Reference -->
                 <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-2xl font-bold mb-4 text-gray-800">Malaysian Income Tax Rates (2023)</h3>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">Malaysian Income Tax Rates (2023-2025)</h3>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left">
                             <thead>
@@ -301,32 +301,37 @@
                                 </tr>
                                 <tr>
                                     <td class="p-3 border">Next RM15,000</td>
-                                    <td class="p-3 border">8%</td>
-                                    <td class="p-3 border">1,200</td>
+                                    <td class="p-3 border">6%</td>
+                                    <td class="p-3 border">900</td>
                                 </tr>
                                 <tr>
                                     <td class="p-3 border">Next RM20,000</td>
-                                    <td class="p-3 border">13%</td>
-                                    <td class="p-3 border">2,600</td>
+                                    <td class="p-3 border">11%</td>
+                                    <td class="p-3 border">2,200</td>
                                 </tr>
                                 <tr>
                                     <td class="p-3 border">Next RM30,000</td>
-                                    <td class="p-3 border">21%</td>
-                                    <td class="p-3 border">6,300</td>
+                                    <td class="p-3 border">19%</td>
+                                    <td class="p-3 border">5,700</td>
                                 </tr>
                                 <tr>
-                                    <td class="p-3 border">Next RM150,000</td>
-                                    <td class="p-3 border">24%</td>
-                                    <td class="p-3 border">36,000</td>
-                                </tr>
-                                <tr>
-                                    <td class="p-3 border">Next RM150,000</td>
-                                    <td class="p-3 border">24.5%</td>
-                                    <td class="p-3 border">36,750</td>
-                                </tr>
-                                <tr>
-                                    <td class="p-3 border">Exceeding RM400,000</td>
+                                    <td class="p-3 border">Next RM300,000</td>
                                     <td class="p-3 border">25%</td>
+                                    <td class="p-3 border">75,000</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 border">Next RM200,000</td>
+                                    <td class="p-3 border">26%</td>
+                                    <td class="p-3 border">52,000</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 border">Next RM1,400,000</td>
+                                    <td class="p-3 border">28%</td>
+                                    <td class="p-3 border">392,000</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 border">Exceeding RM2,000,000</td>
+                                    <td class="p-3 border">30%</td>
                                     <td class="p-3 border">-</td>
                                 </tr>
                             </tbody>
@@ -402,9 +407,9 @@
                 {
                     description: "Ahmad is a software engineer with an annual income of RM60,000. He has EPF contributions of RM6,600 and made a RM3,000 donation to an approved charity.",
                     income: 60000,
-                    deduction: 6600,
-                    relief: 3000,
-                    correctTax: 2550 // (60000 - 6600 - 3000 = 50400) => Tax on 50400
+                    deduction: 3000,
+                    relief: 4000,
+                    correctTax: 1830 // (60000 - 4000 - 3000 = 53000) => Tax on 53000
                 },
                 {
                     description: "Sarah is a teacher earning RM42,000 annually. She has EPF contributions of RM4,620 and paid RM2,500 for medical expenses for her parents.",
