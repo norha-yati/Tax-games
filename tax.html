@@ -1,0 +1,698 @@
+I'll provide the complete code as plain text without any formatting. You can copy this entire text and save it as an HTML file:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malaysian Tax Adventure</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+            min-height: 100vh;
+        }
+        
+        .game-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #FF9D6C 0%, #FF701F 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 112, 31, 0.4);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #6EDCC4 0%, #1AAB8B 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(26, 171, 139, 0.4);
+        }
+        
+        .btn-download {
+            background: linear-gradient(135deg, #9C7CF4 0%, #5D3FD3 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-download:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(93, 63, 211, 0.4);
+        }
+        
+        .progress-bar {
+            height: 10px;
+            border-radius: 5px;
+            background: #e0e0e0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+            transition: width 0.5s ease;
+        }
+        
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .income-card {
+            background: linear-gradient(135deg, #F6D365 0%, #FDA085 100%);
+        }
+        
+        .deduction-card {
+            background: linear-gradient(135deg, #90F7EC 0%, #32CCBC 100%);
+        }
+        
+        .relief-card {
+            background: linear-gradient(135deg, #ABDCFF 0%, #0396FF 100%);
+        }
+        
+        .tax-card {
+            background: linear-gradient(135deg, #CE9FFC 0%, #7367F0 100%);
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            border-radius: 50%;
+            animation: fall 3s ease-in infinite;
+        }
+        
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .animate-bounce-custom {
+            animation: bounce 1s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .download-banner {
+            background: linear-gradient(135deg, #9C7CF4 0%, #5D3FD3 100%);
+            border-radius: 10px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(93, 63, 211, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(93, 63, 211, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(93, 63, 211, 0);
+            }
+        }
+    </style>
+</head>
+<body class="p-4">
+    <div class="max-w-4xl mx-auto my-8 game-container p-6">
+        <!-- Download Banner -->
+        <div class="download-banner p-4 mb-6 flex justify-between items-center text-white">
+            <div>
+                <h3 class="text-xl font-bold">Want to play offline?</h3>
+                <p>Download this game to play anytime, anywhere!</p>
+            </div>
+            <button id="download-btn" class="btn-download text-white font-bold py-2 px-6 rounded-full flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                </svg>
+                Download Game
+            </button>
+        </div>
+        
+        <!-- Game Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">Malaysian Tax Adventure 🇲🇾</h1>
+            <p class="text-lg text-gray-600">Learn how income tax works in Malaysia while having fun!</p>
+        </div>
+        
+        <!-- Game Screens Container -->
+        <div id="game-screens">
+            <!-- Start Screen -->
+            <div id="start-screen" class="text-center py-10">
+                <div class="flex justify-center mb-8">
+                    <svg class="w-32 h-32 animate-bounce-custom" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="45" fill="#4CAF50" />
+                        <text x="50" y="65" font-size="50" text-anchor="middle" fill="white">RM</text>
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold mb-4 text-gray-800">Ready to master Malaysian taxes?</h2>
+                <p class="text-lg mb-8 text-gray-600">Calculate income tax, learn about deductions, and become a tax expert!</p>
+                <button id="start-btn" class="btn-primary text-white font-bold py-3 px-8 rounded-full text-xl">
+                    Start Game
+                </button>
+            </div>
+            
+            <!-- Game Play Screen -->
+            <div id="game-play" class="hidden">
+                <!-- Progress Bar -->
+                <div class="mb-6">
+                    <div class="flex justify-between mb-2">
+                        <span class="font-medium text-gray-700">Game Progress</span>
+                        <span id="progress-text" class="font-medium text-gray-700">Round 1/5</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill" style="width: 20%"></div>
+                    </div>
+                </div>
+                
+                <!-- Scenario -->
+                <div id="scenario-container" class="mb-8 p-6 bg-white rounded-lg shadow-md">
+                    <h3 class="text-2xl font-bold mb-3 text-gray-800">Your Scenario</h3>
+                    <p id="scenario-text" class="text-lg text-gray-700"></p>
+                </div>
+                
+                <!-- Tax Information Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="card income-card p-5 text-white">
+                        <h4 class="text-xl font-bold mb-2">Annual Income</h4>
+                        <p id="income-value" class="text-3xl font-bold">RM 0</p>
+                    </div>
+                    <div class="card deduction-card p-5 text-white">
+                        <h4 class="text-xl font-bold mb-2">Deductions</h4>
+                        <p id="deduction-value" class="text-3xl font-bold">RM 0</p>
+                    </div>
+                    <div class="card relief-card p-5 text-white">
+                        <h4 class="text-xl font-bold mb-2">Tax Relief</h4>
+                        <p id="relief-value" class="text-3xl font-bold">RM 0</p>
+                    </div>
+                    <div class="card tax-card p-5 text-white">
+                        <h4 class="text-xl font-bold mb-2">Tax Payable</h4>
+                        <p id="tax-value" class="text-3xl font-bold">RM ?</p>
+                    </div>
+                </div>
+                
+                <!-- Tax Calculator -->
+                <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">Calculate Tax Payable</h3>
+                    
+                    <div class="mb-6">
+                        <label class="block text-gray-700 font-medium mb-2">Chargeable Income (Annual Income - Deductions - Relief)</label>
+                        <input id="chargeable-income" type="number" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="Enter chargeable income" readonly>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label class="block text-gray-700 font-medium mb-2">Tax Payable (RM)</label>
+                        <input id="tax-payable-input" type="number" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="Calculate and enter tax payable">
+                    </div>
+                    
+                    <div class="flex justify-center">
+                        <button id="calculate-btn" class="btn-secondary text-white font-bold py-3 px-8 rounded-full text-xl mr-4">
+                            Calculate
+                        </button>
+                        <button id="submit-btn" class="btn-primary text-white font-bold py-3 px-8 rounded-full text-xl">
+                            Submit Answer
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Tax Rate Reference -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">Malaysian Income Tax Rates (2023)</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="p-3 border">Chargeable Income</th>
+                                    <th class="p-3 border">Tax Rate</th>
+                                    <th class="p-3 border">Tax Amount (RM)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="p-3 border">First RM5,000</td>
+                                    <td class="p-3 border">0%</td>
+                                    <td class="p-3 border">0</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 border">Next RM15,000</td>
+                                    <td class="p-3 border">1%</td>
+                                    <td class="p-3 border">150</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 border">Next RM15,000</td>
+                                    <td class="p-3 border">3%</td>
+                                    <td class="p-3 border">450</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 border">Next RM15,000</td>
+                                    <td class="p-3 border">8%</td>
+                                    <td class="p-3 border">1,200</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 border">Next RM20,000</td>
+                                    <td class="p-3 border">13%</td>
+                                    <td class="p-3 border">2,600</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 border">Next RM30,000</td>
+                                    <td class="p-3 border">21%</td>
+                                    <td class="p-3 border">6,300</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 border">Next RM150,000</td>
+                                    <td class="p-3 border">24%</td>
+                                    <td class="p-3 border">36,000</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 border">Next RM150,000</td>
+                                    <td class="p-3 border">24.5%</td>
+                                    <td class="p-3 border">36,750</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 border">Exceeding RM400,000</td>
+                                    <td class="p-3 border">25%</td>
+                                    <td class="p-3 border">-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <div class="tooltip">
+                            <button class="text-blue-500 underline">Need help calculating?</button>
+                            <span class="tooltiptext">
+                                Example: For RM50,000 chargeable income:<br>
+                                First RM5,000: RM0<br>
+                                Next RM15,000: RM150<br>
+                                Next RM15,000: RM450<br>
+                                Next RM15,000: RM1,200<br>
+                                Total tax: RM1,800
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Result Screen -->
+            <div id="result-screen" class="hidden text-center py-10">
+                <div id="result-icon" class="flex justify-center mb-8">
+                    <!-- Will be filled dynamically -->
+                </div>
+                <h2 id="result-title" class="text-3xl font-bold mb-4 text-gray-800"></h2>
+                <p id="result-message" class="text-lg mb-4 text-gray-600"></p>
+                <p id="correct-answer" class="text-lg mb-8 font-bold text-gray-800"></p>
+                <div class="flex justify-center space-x-4">
+                    <button id="next-btn" class="btn-primary text-white font-bold py-3 px-8 rounded-full text-xl">
+                        Next Round
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Final Score Screen -->
+            <div id="final-screen" class="hidden text-center py-10">
+                <div id="confetti-container"></div>
+                <div class="flex justify-center mb-8">
+                    <svg class="w-32 h-32" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="45" fill="#FFD700" />
+                        <text x="50" y="65" font-size="50" text-anchor="middle" fill="white">🏆</text>
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold mb-4 text-gray-800">Game Complete!</h2>
+                <p class="text-xl mb-2 text-gray-700">Your Final Score:</p>
+                <p id="final-score" class="text-4xl font-bold mb-8 text-green-600">0/5</p>
+                <p id="final-message" class="text-lg mb-8 text-gray-600"></p>
+                <div class="flex justify-center space-x-4">
+                    <button id="restart-btn" class="btn-primary text-white font-bold py-3 px-8 rounded-full text-xl">
+                        Play Again
+                    </button>
+                    <button id="download-final-btn" class="btn-download text-white font-bold py-3 px-8 rounded-full text-xl flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                        </svg>
+                        Download Game
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Game variables
+            let currentRound = 0;
+            let totalRounds = 5;
+            let score = 0;
+            let scenarios = [
+                {
+                    description: "Ahmad is a software engineer with an annual income of RM60,000. He has EPF contributions of RM6,600 and made a RM3,000 donation to an approved charity.",
+                    income: 60000,
+                    deduction: 6600,
+                    relief: 3000,
+                    correctTax: 2550 // (60000 - 6600 - 3000 = 50400) => Tax on 50400
+                },
+                {
+                    description: "Sarah is a teacher earning RM42,000 annually. She has EPF contributions of RM4,620 and paid RM2,500 for medical expenses for her parents.",
+                    income: 42000,
+                    deduction: 4620,
+                    relief: 2500,
+                    correctTax: 1269 // (42000 - 4620 - 2500 = 34880) => Tax on 34880
+                },
+                {
+                    description: "Raj is a business consultant with an annual income of RM96,000. He has EPF contributions of RM10,560 and spent RM8,000 on his children's education.",
+                    income: 96000,
+                    deduction: 10560,
+                    relief: 8000,
+                    correctTax: 8832 // (96000 - 10560 - 8000 = 77440) => Tax on 77440
+                },
+                {
+                    description: "Mei Ling works in finance with an annual income of RM120,000. She has EPF contributions of RM13,200 and paid RM5,000 for life insurance premiums.",
+                    income: 120000,
+                    deduction: 13200,
+                    relief: 5000,
+                    correctTax: 13230 // (120000 - 13200 - 5000 = 101800) => Tax on 101800
+                },
+                {
+                    description: "Amir is a doctor earning RM180,000 annually. He has EPF contributions of RM19,800 and made a RM10,000 contribution to his parents' medical expenses.",
+                    income: 180000,
+                    deduction: 19800,
+                    relief: 10000,
+                    correctTax: 24048 // (180000 - 19800 - 10000 = 150200) => Tax on 150200
+                }
+            ];
+            
+            // DOM Elements
+            const startScreen = document.getElementById('start-screen');
+            const gamePlayScreen = document.getElementById('game-play');
+            const resultScreen = document.getElementById('result-screen');
+            const finalScreen = document.getElementById('final-screen');
+            
+            const progressFill = document.getElementById('progress-fill');
+            const progressText = document.getElementById('progress-text');
+            
+            const scenarioText = document.getElementById('scenario-text');
+            const incomeValue = document.getElementById('income-value');
+            const deductionValue = document.getElementById('deduction-value');
+            const reliefValue = document.getElementById('relief-value');
+            const taxValue = document.getElementById('tax-value');
+            
+            const chargeableIncomeInput = document.getElementById('chargeable-income');
+            const taxPayableInput = document.getElementById('tax-payable-input');
+            
+            const calculateBtn = document.getElementById('calculate-btn');
+            const submitBtn = document.getElementById('submit-btn');
+            
+            const resultIcon = document.getElementById('result-icon');
+            const resultTitle = document.getElementById('result-title');
+            const resultMessage = document.getElementById('result-message');
+            const correctAnswer = document.getElementById('correct-answer');
+            
+            const finalScore = document.getElementById('final-score');
+            const finalMessage = document.getElementById('final-message');
+            
+            // Button Event Listeners
+            document.getElementById('start-btn').addEventListener('click', startGame);
+            document.getElementById('next-btn').addEventListener('click', nextRound);
+            document.getElementById('restart-btn').addEventListener('click', restartGame);
+            document.getElementById('download-btn').addEventListener('click', downloadGame);
+            document.getElementById('download-final-btn').addEventListener('click', downloadGame);
+            calculateBtn.addEventListener('click', calculateChargeableIncome);
+            submitBtn.addEventListener('click', submitAnswer);
+            
+            // Game Functions
+            function startGame() {
+                startScreen.classList.add('hidden');
+                gamePlayScreen.classList.remove('hidden');
+                currentRound = 0;
+                score = 0;
+                loadRound();
+            }
+            
+            function loadRound() {
+                const scenario = scenarios[currentRound];
+                
+                // Update progress
+                progressFill.style.width = `${((currentRound + 1) / totalRounds) * 100}%`;
+                progressText.textContent = `Round ${currentRound + 1}/${totalRounds}`;
+                
+                // Update scenario
+                scenarioText.textContent = scenario.description;
+                incomeValue.textContent = `RM ${scenario.income.toLocaleString()}`;
+                deductionValue.textContent = `RM ${scenario.deduction.toLocaleString()}`;
+                reliefValue.textContent = `RM ${scenario.relief.toLocaleString()}`;
+                taxValue.textContent = 'RM ?';
+                
+                // Reset inputs
+                chargeableIncomeInput.value = '';
+                taxPayableInput.value = '';
+            }
+            
+            function calculateChargeableIncome() {
+                const scenario = scenarios[currentRound];
+                const chargeableIncome = scenario.income - scenario.deduction - scenario.relief;
+                chargeableIncomeInput.value = chargeableIncome;
+                
+                // Create a visual effect to show calculation
+                chargeableIncomeInput.classList.add('bg-yellow-100');
+                setTimeout(() => {
+                    chargeableIncomeInput.classList.remove('bg-yellow-100');
+                }, 500);
+            }
+            
+            function calculateTax(chargeableIncome) {
+                let tax = 0;
+                
+                if (chargeableIncome <= 5000) {
+                    tax = 0;
+                } else if (chargeableIncome <= 20000) {
+                    tax = (chargeableIncome - 5000) * 0.01;
+                } else if (chargeableIncome <= 35000) {
+                    tax = 150 + (chargeableIncome - 20000) * 0.03;
+                } else if (chargeableIncome <= 50000) {
+                    tax = 150 + 450 + (chargeableIncome - 35000) * 0.08;
+                } else if (chargeableIncome <= 70000) {
+                    tax = 150 + 450 + 1200 + (chargeableIncome - 50000) * 0.13;
+                } else if (chargeableIncome <= 100000) {
+                    tax = 150 + 450 + 1200 + 2600 + (chargeableIncome - 70000) * 0.21;
+                } else if (chargeableIncome <= 250000) {
+                    tax = 150 + 450 + 1200 + 2600 + 6300 + (chargeableIncome - 100000) * 0.24;
+                } else if (chargeableIncome <= 400000) {
+                    tax = 150 + 450 + 1200 + 2600 + 6300 + 36000 + (chargeableIncome - 250000) * 0.245;
+                } else {
+                    tax = 150 + 450 + 1200 + 2600 + 6300 + 36000 + 36750 + (chargeableIncome - 400000) * 0.25;
+                }
+                
+                return Math.round(tax);
+            }
+            
+            function submitAnswer() {
+                const scenario = scenarios[currentRound];
+                const userAnswer = parseInt(taxPayableInput.value) || 0;
+                const correctTaxAmount = scenario.correctTax;
+                
+                // Calculate chargeable income if not already done
+                if (!chargeableIncomeInput.value) {
+                    calculateChargeableIncome();
+                }
+                
+                // Show result screen
+                gamePlayScreen.classList.add('hidden');
+                resultScreen.classList.remove('hidden');
+                
+                // Check if answer is correct (allow 5% margin of error)
+                const margin = correctTaxAmount * 0.05;
+                const isCorrect = Math.abs(userAnswer - correctTaxAmount) <= margin;
+                
+                if (isCorrect) {
+                    score++;
+                    resultIcon.innerHTML = `
+                        <div class="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center">
+                            <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                    `;
+                    resultTitle.textContent = "Correct!";
+                    resultTitle.className = "text-3xl font-bold mb-4 text-green-600";
+                    resultMessage.textContent = "Great job calculating the tax amount!";
+                } else {
+                    resultIcon.innerHTML = `
+                        <div class="w-24 h-24 bg-red-500 rounded-full flex items-center justify-center">
+                            <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </div>
+                    `;
+                    resultTitle.textContent = "Not Quite Right";
+                    resultTitle.className = "text-3xl font-bold mb-4 text-red-600";
+                    resultMessage.textContent = "Let's review the correct calculation:";
+                }
+                
+                correctAnswer.textContent = `Correct tax amount: RM ${correctTaxAmount.toLocaleString()}`;
+                
+                // If last round, show next button as "See Final Score"
+                if (currentRound === totalRounds - 1) {
+                    document.getElementById('next-btn').textContent = "See Final Score";
+                }
+            }
+            
+            function nextRound() {
+                currentRound++;
+                
+                if (currentRound < totalRounds) {
+                    resultScreen.classList.add('hidden');
+                    gamePlayScreen.classList.remove('hidden');
+                    loadRound();
+                } else {
+                    showFinalScore();
+                }
+            }
+            
+            function showFinalScore() {
+                resultScreen.classList.add('hidden');
+                finalScreen.classList.remove('hidden');
+                
+                finalScore.textContent = `${score}/${totalRounds}`;
+                
+                if (score === totalRounds) {
+                    finalMessage.textContent = "Perfect score! You're a Malaysian tax expert! 🎉";
+                    createConfetti();
+                } else if (score >= totalRounds * 0.8) {
+                    finalMessage.textContent = "Great job! You have a solid understanding of Malaysian taxes.";
+                } else if (score >= totalRounds * 0.6) {
+                    finalMessage.textContent = "Good effort! With a bit more practice, you'll master Malaysian taxes.";
+                } else {
+                    finalMessage.textContent = "Keep practicing! Malaysian tax calculations take time to master.";
+                }
+            }
+            
+            function restartGame() {
+                finalScreen.classList.add('hidden');
+                startScreen.classList.remove('hidden');
+                
+                // Clear confetti
+                document.getElementById('confetti-container').innerHTML = '';
+            }
+            
+            function createConfetti() {
+                const confettiContainer = document.getElementById('confetti-container');
+                const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+                
+                for (let i = 0; i < 100; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = `${Math.random() * 100}%`;
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = `${Math.random() * 3}s`;
+                    confettiContainer.appendChild(confetti);
+                }
+            }
+            
+            // Download game function
+            function downloadGame() {
+                // Get the current HTML content
+                const htmlContent = document.documentElement.outerHTML;
+                
+                // Create a Blob with the HTML content
+                const blob = new Blob([htmlContent], { type: 'text/html' });
+                
+                // Create a download link
+                const downloadLink = document.createElement('a');
+                downloadLink.href = URL.createObjectURL(blob);
+                downloadLink.download = 'malaysian_tax_adventure.html';
+                
+                // Append to the document, click it, and remove it
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+                
+                // Show download notification
+                showDownloadNotification();
+            }
+            
+            function showDownloadNotification() {
+                // Create notification element
+                const notification = document.createElement('div');
+                notification.className = 'fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-lg shadow-lg';
+                notification.innerHTML = `
+                    <div class="flex items-center">
+                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Game downloaded successfully!</span>
+                    </div>
+                `;
+                
+                // Add to document
+                document.body.appendChild(notification);
+                
+                // Remove after 3 seconds
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    notification.style.transition = 'opacity 0.5s ease';
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 500);
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
